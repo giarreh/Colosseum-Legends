@@ -1,13 +1,16 @@
 import './App.css';
 import Header from './components/Header';
 import Signup from './components/Signup';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Signup />
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <Header />
+        <Signup />
+      </div>
+    </AuthProvider>
   );
 }
 

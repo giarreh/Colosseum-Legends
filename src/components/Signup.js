@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Signup.css'; // Import CSS file for styling
+import { useAuth } from '../contexts/AuthContext';
+
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -7,6 +9,8 @@ function Signup() {
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const {signup} = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,13 +20,8 @@ function Signup() {
     });
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e){
     e.preventDefault();
-
-    if(!formData.name || !formData.email || !formData.password) {
-      alert('All fields are required');
-      return;
-    }
 
     if(formData.username.length < 3) {
       alert('Username must be at least 3 characters long');
@@ -50,6 +49,13 @@ function Signup() {
     }
 
     // Here you can send the form data to your backend for processing
+    try {
+      setLoading(true);
+      await signup(formData.email, formData.password);
+    } catch (err) {
+      alert(err)
+    }
+    setLoading(false);
     console.log('Form submitted with data:', formData);
     // You may also want to clear the form fields after submission
     setFormData({
@@ -96,7 +102,7 @@ function Signup() {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={loading}>Sign Up</button>
       </form>
     </div>
   );
