@@ -13,6 +13,7 @@ export default function Dashboard() {
       alert('Failed to log out', error)
     }
   }
+  console.log(currentUser.accessToken)
   return (
     <>
     {currentUser && <button onClick={handleLogout}>Logout</button>}

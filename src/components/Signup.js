@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Signup.css'; // Import CSS file for styling
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Signup() {
@@ -12,6 +12,8 @@ function Signup() {
   });
   const [loading, setLoading] = useState(false);
   const {signup} = useAuth();
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +55,7 @@ function Signup() {
     try {
       setLoading(true);
       await signup(formData.email, formData.password);
+      navigate('/');
     } catch (err) {
       alert(err)
     }
